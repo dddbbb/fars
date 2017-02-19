@@ -1,0 +1,46 @@
+---
+title: "FARS functions"
+author: "Kirill Efremov"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The package contains function for working with [(FARS)](http://www.nhtsa.gov/Data/Fatality-Analysis-Reporting-System-(FARS)) data
+
+
+# Function for ploting data of accidents in specific state and year
+
+## Description
+Takes state number and yeasr and make plot with map. If there are no state throw message "invalid STATE number: "
+If there no accidents show message "no accidents to plot"
+
+## Code
+```{r fars_map_state, eval = FALSE}
+  
+  fars_map_state <- function(state.num, year) {
+    filename <- make_filename(year)
+    data <- fars_read(filename)
+    state.num <- as.integer(state.num)
+  
+    if(!(state.num %in% unique(data$STATE)))
+      stop("invalid STATE number: ", state.num)
+    data.sub <- dplyr::filter(data, STATE == state.num)
+    if(nrow(data.sub) == 0L) {
+      message("no accidents to plot")
+      return(invisible(NULL))
+    }
+    is.na(data.sub$LONGITUD) <- data.sub$LONGITUD > 900
+    is.na(data.sub$LATITUDE) <- data.sub$LATITUDE > 90
+    with(data.sub, {
+      maps::map("state", ylim = range(LATITUDE, na.rm = TRUE),
+                xlim = range(LONGITUD, na.rm = TRUE))
+      graphics::points(LONGITUD, LATITUDE, pch = 46)
+    })
+  }
+```
+
+## For other functions see package manual
