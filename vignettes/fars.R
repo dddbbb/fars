@@ -1,3 +1,14 @@
+## ----fars_read, eval=FALSE-----------------------------------------------
+#    fars_read <- function(filename) {
+#    if(!file.exists(filename))
+#      stop("file '", filename, "' does not exist")
+#    data <- suppressMessages({
+#      readr::read_csv(filename, progress = FALSE)
+#    })
+#    dplyr::tbl_df(data)
+#  }
+#  
+
 ## ----fars_map_state, eval = FALSE----------------------------------------
 #  
 #    fars_map_state <- function(state.num, year) {

@@ -9,7 +9,29 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The package contains function for working with [(FARS)](http://www.nhtsa.gov/Data/Fatality-Analysis-Reporting-System-(FARS)) data
+The package contains functions for working with [(FARS)](http://www.nhtsa.gov/Data/Fatality-Analysis-Reporting-System-(FARS)) data
+Store data on your working directory
+
+
+# Read FARS data
+Reads data into data.frame from working directory. 
+.csv file should be already downloaded or error message will throw out
+## Parametrs
+filename - Integer or string name of file for reading
+## Example
+fars_read("accident_2015.csv.bz2")
+## Code
+```{r fars_read, eval=FALSE}
+  fars_read <- function(filename) {
+  if(!file.exists(filename))
+    stop("file '", filename, "' does not exist")
+  data <- suppressMessages({
+    readr::read_csv(filename, progress = FALSE)
+  })
+  dplyr::tbl_df(data)
+}
+
+```
 
 
 # Function for ploting data of accidents in specific state and year

@@ -74,7 +74,19 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<p>The package contains function for working with <a href="http://www.nhtsa.gov/Data/Fatality-Analysis-Reporting-System-(FARS)">(FARS)</a> data</p>
+<p>The package contains functions for working with <a href="http://www.nhtsa.gov/Data/Fatality-Analysis-Reporting-System-(FARS)">(FARS)</a> data Store data on your working directory</p>
+<div id="read-fars-data" class="section level1">
+<h1>Read FARS data</h1>
+<p>Reads data into data.frame from working directory. .csv file should be already downloaded or error message will throw out ## Parametrs filename - Integer or string name of file for reading ## Example fars_read(“accident_2015.csv.bz2”) ## Code</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  fars_read &lt;-<span class="st"> </span>function(filename) {
+  if(!<span class="kw">file.exists</span>(filename))
+    <span class="kw">stop</span>(<span class="st">&quot;file '&quot;</span>, filename, <span class="st">&quot;' does not exist&quot;</span>)
+  data &lt;-<span class="st"> </span><span class="kw">suppressMessages</span>({
+    readr::<span class="kw">read_csv</span>(filename, <span class="dt">progress =</span> <span class="ot">FALSE</span>)
+  })
+  dplyr::<span class="kw">tbl_df</span>(data)
+}</code></pre></div>
+</div>
 <div id="function-for-ploting-data-of-accidents-in-specific-state-and-year" class="section level1">
 <h1>Function for ploting data of accidents in specific state and year</h1>
 <div id="description" class="section level2">
